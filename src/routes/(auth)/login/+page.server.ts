@@ -6,7 +6,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import { db } from "$lib/server/db";
 import { accounts, users } from "$lib/server/schemas";
 import { eq } from "drizzle-orm";
-import { Argon2id } from "oslo/password";
+// import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
 
 export const load = async (event) => {
@@ -43,7 +43,7 @@ export const actions: Actions = {
 			return setError(form, "", "An error occurred while logging in. Please try again.");
 		}
 
-		const validPassword = await new Argon2id().verify(account.hashedPassword, form.data.password);
+		const validPassword = await Bun.password.verify(form.data.password, account.hashedPassword);
 
 		if (!validPassword) {
 			return setError(form, "", "Invalid username or password.");

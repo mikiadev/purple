@@ -1,24 +1,25 @@
 import { faker } from "@faker-js/faker";
 import { generateId } from "lucia";
-import { Argon2id } from "oslo/password";
+// import { Argon2id } from "oslo/password";
 import { db } from "../src/lib/server/db.js";
 import { posts, accounts, users } from "../src/lib/server/schemas.js";
 import { mockUserData } from "./data.js";
 
-import { webcrypto } from "node:crypto";
-
-globalThis.crypto = webcrypto as Crypto;
+// Not needed with bun -
+// import { webcrypto } from "node:crypto";
+// globalThis.crypto = webcrypto as Crypto;
 
 async function createUsers() {
 	for (const user of mockUserData) {
 		const userId = generateId(15);
-		const hashedPassword = await new Argon2id().hash("1234");
+		const hashedPassword = await Bun.password.hash("1234");
 
 		const { id } = db
 			.insert(users)
 			.values({ username: user.username, id: userId })
 			.returning({ id: users.id })
 			.get();
+console.log('inserting id',id)
 
 		await db.insert(accounts).values({
 			hashedPassword,

@@ -5,7 +5,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import { users, accounts } from "$lib/server/schemas.js";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
-import { Argon2id } from "oslo/password";
+// import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
 import { db } from "$lib/server/db";
 
@@ -38,7 +38,7 @@ export const actions = {
 		}
 
 		const userId = generateId(15);
-		const hashedPassword = await new Argon2id().hash(form.data.password);
+		const hashedPassword = await Bun.password.hash(form.data.password);
 
 		const { id } = db
 			.insert(users)

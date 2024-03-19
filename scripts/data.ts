@@ -5,6 +5,7 @@ type MockUser = {
 
 export const mockUserData: MockUser[] = [
 	{ name: "Hunter Johnston", username: "huntabyte" },
+  { name: "Mika", username: "mika" },
 	{ name: "Adrian Gonz", username: "cokakoala" },
 	{ name: "Ella Rodriguez", username: "ellarod" },
 	{ name: "Samantha Smith", username: "samsmith" },
